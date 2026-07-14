@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>AI Quiz Generator</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div class="container">
+
+  <h1>AI Java Quiz Generator</h1>
+
+  <form action="/quiz" method="post">
+
+    <input
+            type="text"
+            name="topic"
+            placeholder="Enter Java Topic (Example: Arrays)"
+            required>
+
+    <br><br>
+
+    <button type="submit">
+      Generate Quiz
+    </button>
+
+  </form>
+
+</div>
+
+</body>
+</html>

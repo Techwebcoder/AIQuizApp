@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <title>Quiz Result</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🎉 Quiz Completed</h1>
+
+    <div class="score">
+
+        <span th:text="${score}"></span>
+        /
+        <span th:text="${total}"></span>
+
+    </div>
+
+    <h2 style="text-align:center; margin-top:20px;">
+
+        Percentage :
+        <span th:text="${#numbers.formatDecimal(percentage,1,1)}"></span> %
+
+    </h2>
+
+    <div style="text-align:center; margin-top:20px;">
+
+        <h2 th:if="${percentage>=90}" style="color:green;">
+            🏆 Excellent!
+        </h2>
+
+        <h2 th:if="${percentage>=70 && percentage<90}" style="color:#2563eb;">
+            😊 Very Good!
+        </h2>
+
+        <h2 th:if="${percentage>=50 && percentage<70}" style="color:orange;">
+            👍 Good Job!
+        </h2>
+
+        <h2 th:if="${percentage<50}" style="color:red;">
+            📚 Keep Practicing!
+        </h2>
+
+    </div>
+
+    <div th:if="${wrongAnswers.size()>0}">
+
+        <h2 style="margin-top:40px;color:#dc2626;">
+            ❌ Review Your Mistakes
+        </h2>
+
+        <div th:each="r : ${wrongAnswers}" class="wrong-card">
+
+            <h3 th:text="${r.question}"></h3>
+
+            <hr>
+
+            <p>
+
+                <strong style="color:red;">
+                    ❌ Your Answer
+                </strong>
+
+            </p>
+
+            <p th:text="${r.userAnswer}"></p>
+
+            <br>
+
+            <p>
+
+                <strong style="color:green;">
+                    ✅ Correct Answer
+                </strong>
+
+            </p>
+
+            <p th:text="${r.correctAnswer}"></p>
+
+            <br>
+
+            <p>
+
+                <strong style="color:#2563eb;">
+                    💡 Explanation
+                </strong>
+
+            </p>
+
+            <p th:text="${r.reason}"></p>
+
+        </div>
+
+    </div>
+
+    <div th:if="${wrongAnswers.size()==0}" style="text-align:center; margin-top:40px;">
+
+        <h2 style="color:green;">
+            🎉 Perfect Score!
+        </h2>
+
+        <p style="font-size:20px;">
+            You answered every question correctly.
+        </p>
+
+    </div>
+
+    <div style="text-align:center; margin-top:40px;">
+
+        <a href="/">
+
+            <button>
+                🔄 Take Another Quiz
+            </button>
+
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+</html>

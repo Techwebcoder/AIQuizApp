@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <title>AI Java Quiz</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🤖 AI Java Quiz</h1>
+
+    <div id="timer">⏳ 30</div>
+
+    <div class="progress-container">
+        <div id="progressBar" class="progress-bar"></div>
+    </div>
+
+    <h2 id="questionCounter"></h2>
+
+    <form action="/submit" method="post">
+
+        <div th:each="q, stat : ${questions}" class="question-slide">
+
+            <h2 th:text="${q.question}"></h2>
+
+            <label class="option">
+                <input type="radio" th:name="${'q'+stat.index}" value="A">
+                <span th:text="${q.optionA}"></span>
+            </label>
+
+            <label class="option">
+                <input type="radio" th:name="${'q'+stat.index}" value="B">
+                <span th:text="${q.optionB}"></span>
+            </label>
+
+            <label class="option">
+                <input type="radio" th:name="${'q'+stat.index}" value="C">
+                <span th:text="${q.optionC}"></span>
+            </label>
+
+            <label class="option">
+                <input type="radio" th:name="${'q'+stat.index}" value="D">
+                <span th:text="${q.optionD}"></span>
+            </label>
+
+        </div>
+
+        <div class="navigation">
+
+            <button type="button" id="prevBtn">
+                ⬅ Previous
+            </button>
+
+            <button type="button" id="nextBtn">
+                Next ➜
+            </button>
+
+            <button type="submit" id="submitBtn">
+                ✅ Submit Quiz
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+<script>
+
+    let currentQuestion = 0;
+    let time = 30;
+
+    const slides = document.querySelectorAll(".question-slide");
+
+    const timer = document.getElementById("timer");
+
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const submitBtn = document.getElementById("submitBtn");
+
+    showQuestion(currentQuestion);
+    startTimer();
+
+    function showQuestion(index){
+
+        slides.forEach(slide=>slide.style.display="none");
+
+        slides[index].style.display="block";
+
+        document.getElementById("questionCounter").innerHTML =
+                "Question " + (index+1) + " of " + slides.length;
+
+        document.getElementById("progressBar").style.width =
+                ((index+1)/slides.length)*100+"%";
+
+        prevBtn.style.display = index==0 ? "none":"inline-block";
+
+        nextBtn.style.display = index==slides.length-1 ? "none":"inline-block";
+
+        submitBtn.style.display = index==slides.length-1 ? "inline-block":"none";
+    }
+
+    function optionSelected(){
+
+        const radios = slides[currentQuestion].querySelectorAll("input[type='radio']");
+
+        for(let radio of radios){
+
+            if(radio.checked)
+                return true;
+
+        }
+
+        return false;
+
+    }
+
+    nextBtn.onclick=function(){
+
+        if(!optionSelected()){
+
+            alert("Please select an answer.");
+
+            return;
+
+        }
+
+        currentQuestion++;
+
+        showQuestion(currentQuestion);
+
+        startTimer();
+
+    }
+
+    prevBtn.onclick=function(){
+
+        if(currentQuestion>0){
+
+            currentQuestion--;
+
+            showQuestion(currentQuestion);
+
+            startTimer();
+
+        }
+
+    }
+
+    document.querySelector("form").addEventListener("submit",function(e){
+
+        if(!optionSelected()){
+
+            alert("Please answer the last question.");
+
+            e.preventDefault();
+
+        }
+
+    });
+
+    function startTimer(){
+
+        clearInterval(window.quizTimer);
+
+        time=30;
+
+        timer.innerHTML="⏳ "+time+" sec";
+
+        window.quizTimer=setInterval(function(){
+
+            time--;
+
+            timer.innerHTML="⏳ "+time+" sec";
+
+            if(time==0){
+
+                clearInterval(window.quizTimer);
+
+                if(currentQuestion<slides.length-1){
+
+                    currentQuestion++;
+
+                    showQuestion(currentQuestion);
+
+                    startTimer();
+
+                }
+
+            }
+
+        },1000);
+
+    }
+
+</script>
+
+</body>
+</html>
