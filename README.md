@@ -58,27 +58,7 @@ src
 6. The application evaluates the responses.
 7. The final score is displayed.
 
----
 
-## 📸 Screenshots
-
-Add screenshots here.
-
-### 🏠 Home Page
-
-<img src="images/home.png" width="800">
-
-### 📝 Quiz Page
-
-<img src="images/quiz.png" width="800">
-
-### 🎉 Result Page
-
-<img src="images/result.png" width="800">
-
-> Replace the image paths with your own screenshots.
-
----
 
 ## ▶️ Getting Started
 
