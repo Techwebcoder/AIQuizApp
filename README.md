@@ -58,7 +58,9 @@ src
 6. The application evaluates the responses.
 7. The final score is displayed.
 
+```
 
+---
 
 ## ▶️ Getting Started
 
